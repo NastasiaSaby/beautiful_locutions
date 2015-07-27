@@ -1,0 +1,25 @@
+//- Page d'accueil
+//- ==============
+
+//- Notez le recours à `extend` et aux blocs pour la mise en place d'un layout,
+//- puisque Express 3.x n'utilise plus automatiquement `layout.jade`.  Ceci dit c'est
+//- plus flexible (choix du layout suivant la vue + injection possible de contenus en
+//- plusieurs points du layout à l'aide de blocs dédiés).
+extend _layout
+
+block content
+  if user
+    h1 Bienvenue dans #{title}, #{user.name} !
+
+    p Envie de <a href="/entries">consulter les phrases</a> ?
+  else
+    h1 Bienvenue dans #{title}
+
+    p Voici un espace où s'amuser <strike>de</strike> avec ses collègues.
+    p Collecte de <strong>phrases les plus décalées</strong> et des <strong>blagues les moins drôles</strong>.
+
+    p.text-center
+      a.btn.btn-lg.btn-primary(href="/users/get-in/twitter") Connectez-vous avec Twitter
+      //- Bon, un écart CSS serait préférable, c'est vrai…
+      | &nbsp;&nbsp;&nbsp;
+      a.btn.btn-lg.btn-primary(href="/users/get-in/facebook") Connectez-vous avec Facebook

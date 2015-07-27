@@ -1,0 +1,43 @@
+//- Layout principal
+//- ================
+
+//- Mixin factorisant le balisage des liens de navigation
+mixin navlink(linkUrl, glyph, label)
+  //- La propriété `url` est mise à disposition des vues par notre petit middleware dans `server.js`.
+  li(class= 0 === url.indexOf(linkUrl) ? 'active' : null)
+    a(href=linkUrl)
+      i.glyphicon(class="glyphicon-#{glyph}")
+      = ' ' + label
+
+//- Mixin factorisant le balisage des champs de saisie des tags
+mixin tagField(id)
+  input.form-control(id=id name="tags" placeholder="tag, tag…" value=query.tags data-tags=(tags || []))
+
+//- Balisage effectif du layout
+doctype html
+html(lang="fr")
+  head
+    meta(charset="utf-8")
+    title= pageTitle ? pageTitle + ' — ' + title : title
+    meta(name="viewport" content="width=device-width, initial-scale=1.0")
+    //- Cette CSS est produite par Brunch
+    link(rel="stylesheet" href="/app.css")
+  body
+    .container
+      nav.navbar.navbar-default.navbar-static-top(role="navigation")
+        .navbar-header
+          a.navbar-brand(href="/")= title
+        ul.nav.navbar-nav
+          +navlink('/entries', 'list', 'Phrases')
+        if user
+          ul.nav.navbar-nav.navbar-right
+            +navlink('/users/logout', 'log-out', 'Déconnexion ' + user.name)
+      include _flashes
+      block content
+    //- Scripts synchrones à la fin, naturellement.  Ce JS est produit par Brunch.
+    script(src="/app.js")
+    //- Ce JS est produit et pré-configuré dynamiquement par Socket.IO côté serveur.
+    script(src="/socket.io/socket.io.js")
+    //- Notre JS côté serveur est enrobé par Brunch sous forme de modules CommonJS,
+    //- il nous appartient donc de faire un premier `require` vers le point d'entrée.
+    script require('client/application');

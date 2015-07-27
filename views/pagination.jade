@@ -1,0 +1,60 @@
+div.row.text-center
+    - var n = 1
+    ul.pagination
+        li
+            if skip != 1
+                a(href= 1) <<
+        li
+            if skip != 1
+                a(href=skip-1) <
+        if (skip == 2 || skip == 1)
+            - n=1
+            li(class= skip == n ? 'active' : null)
+                a(href= n)= n
+                - n++
+            li(class= skip == n ? 'active' : null)
+                a(href= n)= n
+                - n++
+            li(class= skip == n ? 'active' : null)
+                a(href= n)= n
+                - n++
+            li(class= skip == n ? 'active' : null)
+                a(href= n)= n
+                - n++
+            li(class= skip == n ? 'active' : null)
+                a(href= n)= n
+        else if (skip == nbPage || skip ==nbPage-1)
+             - n = nbPage-4
+             li(class= skip == n ? 'active' : null)
+                 a(href= n)= n
+                 - n++
+             li(class= skip == n ? 'active' : null)
+                 a(href= n)= n
+                 - n++
+             li(class= skip == n ? 'active' : null)
+                 a(href= n)= n
+                 - n++
+             li(class= skip == n ? 'active' : null)
+                 a(href= n)= n
+                 - n++
+             li(class= skip == n ? 'active' : null)
+                 a(href= n)= n
+        else
+            li
+                a(href= skip-2)= skip-2
+            li
+                a(href= skip-1)= skip-1
+            li(class='active')
+                a(href= skip)= skip
+            li
+                a(href= Number(skip)+1)= Number(skip)+1
+            li
+                a(href= Number(skip)+2)= Number(skip)+2
+
+
+        li
+            if skip != nbPage
+                a(href=Number(skip)+1) >
+        li
+            if skip != nbPage
+                a(href=nbPage) >>

@@ -1,0 +1,18 @@
+{
+  "glob": [
+    "client/*.js",
+    "client/lib/**/*.js",
+    "common/**/*.js",
+    "controllers/**/*.js",
+    "models/**/*.js",
+    "*.js",
+
+    "config.coffee",
+    "nodemon.json",
+
+    "common/**/*.jade",
+    "views/**/*.jade"
+  ],
+  "github": false,
+  "strip": "--no-strip"
+}
