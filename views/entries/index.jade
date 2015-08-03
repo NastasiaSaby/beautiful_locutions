@@ -14,11 +14,16 @@ block content
       .checkbox
         label
           input(type="checkbox" name="tagMode" value="any" checked=('any' === query.tagMode))
-          |  pas forcément tous  
-      button.btn.btn-primary(type="submit")
+          |  pas forcément tous 
+      .checkbox
+        label
+        input(type="checkbox" name="authorSort" value="false")
+        |  Trier par nom d'auteur
+        input(type="hidden" id="skip" name="skip")    
+      button#submitButton.btn.btn-primary(type="submit")
         i.glyphicon.glyphicon-filter
         |  Filtrer
-      input(type="hidden" id="skip" name="skip")
+
 
     hr
     p

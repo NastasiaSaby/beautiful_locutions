@@ -9,7 +9,7 @@ tr(id=entry.id class=injected ? 'injected' : null)
     .lead
       //- Si on n'a pas pu extraire de `title` (ou que le document mongoDB est incomplet), utiliser l'URL à la place
       a(href="/entries/#{entry.id}")= entry.title || entry.url
-          small.text-muted  Par <i>#{entry.author}</i> #{formatDate(entry)}
+          small.text-muted  Par <i>#{entry.firstname} #{entry.name}</i> #{formatDate(entry)}
     p
       i= entry.expression
     p Balancé par #{(entry.poster || {}).name}

@@ -76,7 +76,8 @@ function createEntry(req, res) {
 			tags: req.body.tags,
 			poster: req.user,
 			expression: req.body.expression,
-            author: req.body.author
+            firstname: req.body.firstname,
+            name: req.body.name
 		})
 	.then(function(entry) {
 		//Quand all is good, que l'entry est bien enregistré, on le balance en émission web socket
@@ -116,13 +117,6 @@ function listEntries(req, res) {
             skip: req.query.skip || 1
         });
 	})
-	/*Entry.getEntries(req.query)
-	.then(function(entries) {
-		Entry.count().exec().then(function(totalEntries) {
-			res.render('entries/index', {pageTitle: 'Les bookmamks', entries: entries, totalEntries: totalEntries });
-		});
-		
-	})*/
 	.then(null, function(err) {
 		req.flash('info', "Impossible de voir les bookmarks" + err.message);
 		res.redirect('/entries');

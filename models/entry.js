@@ -6,11 +6,12 @@ var mongoose = require('mongoose');
 var _ = require('underscore');
 var Promise = require('rsvp').Promise;
 
-var limit = 2;
+var limit = 10;
 
 
 var entrySchema = new mongoose.Schema({
-    author: { type: String, required: true},
+    name: { type: String, required: true},
+    firstname: { type: String, required: true},
 	comments: [{
 		author: { type: String, ref: 'User'},
 		text: { type: String, required: true, trim: true},
@@ -73,7 +74,7 @@ _.extend(entrySchema.statics, {
         return scope.where('tags')[op](tags).exec()
             .then(function(scope) {
                 return new Promise (function(resolve, reject) {
-                    resolve(Math.ceil(scope/2));
+                    resolve(Math.ceil(scope/limit));
                 });
             }
         )
@@ -81,17 +82,26 @@ _.extend(entrySchema.statics, {
 
     },
 	getEntries: function getEntries(filter) {
-		var scope = this.find().populate('poster comments').sort({score:-1, postedAt:-1}).limit(limit).skip((filter.skip-1)*limit);
+        var page = filter.skip-1;
+
+		var scope = this.find().populate('poster comments').sort({score:-1, postedAt:-1});
 
 		var tags = normalizeTags(_.isString(filter) ? filter : (filter && filter.tags));
 
-		if(0 === tags.length) {
-			return scope.exec();
+		if(0 === tags.length && page != -1) {
+			return scope.limit(limit).skip((page)*limit).exec();
 		}
-
-		var op = ('any' === (filter && filter.tagMode) ? 'in' : 'all');
-		return scope.where('tags')[op](tags).exec();
-		
+        else if (0 === tags.length && page == -1)  {
+            return scope.limit(limit).skip((1)*limit).exec();
+        }
+        else if (0 != tags.length && page != -1) {
+            var op = ('any' === (filter && filter.tagMode) ? 'in' : 'all');
+            return scope.where('tags')[op](tags).limit(limit).skip((page)*limit).exec();
+        }
+        else {
+            var op = ('any' === (filter && filter.tagMode) ? 'in' : 'all');
+            return scope.where('tags')[op](tags).limit(limit).skip((1)*limit).exec();
+        }
 	},
 	//Pour lui demander une promesse, on met exec
 	getEntry: function getEntry(id) {

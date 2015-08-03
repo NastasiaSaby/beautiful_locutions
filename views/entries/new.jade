@@ -9,10 +9,11 @@ block content
     input(type="hidden" name="_csrf" value=csrfToken)
     .form-group
         label(for="edtURL") Phrase
-        textarea#edtURL.form-control(name="expression" autofocus required)
+        input#edtURL.form-control(name="expression" autofocus required)
     .form-group
-      label(for="edtURL") Auteur de la phrase
-      input#edtURL.form-control(name="author" autofocus required)
+      label(for="edtURL") Auteur de la phrase &nbsp;
+      input#edtURL(name="firstname" placeholder="Prénom" autofocus required)
+      input#edtURL(name="name" placeholder="Nom" autofocus required)
     .form-group
       label(for="edtTags") Tags
       +tagField('edtTags')
